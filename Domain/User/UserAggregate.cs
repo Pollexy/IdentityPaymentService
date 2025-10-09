@@ -23,7 +23,6 @@ public class UserAggregate : BaseAggregate
     public required string FirstName { get; set; }
     public required string LastName { get; set; }
     public required string FullName { get; set; }
-    public string? Username { get; set; }
     public string? Phone { get; set; }
     public required string Email { get; set; }
     public string? Bio { get; private set; }
@@ -35,13 +34,12 @@ public class UserAggregate : BaseAggregate
 
     public ICollection<IdentityAggregate> Identities { get; set; } = new List<IdentityAggregate>();
 
-    private UserAggregate(string firstName, string lastName, DateOnly birthDate, string email, string? username = null,
+    private UserAggregate(string firstName, string lastName, DateOnly birthDate, string email,
         string? phone = null, string? bio = null, string? profileImageUrl = null)
     {
         FirstName = firstName.Trim();
         LastName = lastName.Trim();
         FullName = firstName + " " + lastName;
-        Username = username?.Trim() ?? string.Empty;
         Phone = phone?.Trim() ?? string.Empty;
         Email = email.Trim();
         BirthDate = birthDate;
@@ -70,7 +68,6 @@ public class UserAggregate : BaseAggregate
 
         var user = new UserAggregate
         {
-            Username = username.Trim(),
             Phone = phone.Trim(),
             FirstName = firstName.Trim(),
             LastName = lastName.Trim(),
@@ -125,7 +122,6 @@ public class UserAggregate : BaseAggregate
         {
             UserId = Id,
             User = this,
-            Username = string.IsNullOrWhiteSpace(username) ? string.Empty : username.Trim(),
             Phone = string.IsNullOrWhiteSpace(phone) ? string.Empty : phone.Trim(),
             Email = email.Trim().ToLowerInvariant(),
             PasswordHash = hashedPassword,
