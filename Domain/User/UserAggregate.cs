@@ -27,8 +27,8 @@ public class UserAggregate : BaseAggregate
     public required string Email { get; set; }
     public string? Bio { get; private set; }
     public string? ProfileImageUrl { get; private set; }
-    public float? Weight { get; set; }
-    public float? Height { get; set; }
+    public decimal? Weight { get; set; }
+    public decimal? Height { get; set; }
     public DateOnly? BirthDate { get; set; } = new DateOnly(2000, 1, 1);
     public GenderType Gender { get; set; } = GenderType.Unknown;
 

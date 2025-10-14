@@ -1,5 +1,22 @@
+using Infrastructure.Persistence.Repositories;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
+var connectionString =
+    Environment.GetEnvironmentVariable("DB_CONNECTION")              
+    ?? builder.Configuration.GetConnectionString("DefaultConnection"); 
+
+if (string.IsNullOrWhiteSpace(connectionString))
+    throw new InvalidOperationException("Connection string bulunamadı.");
+
+// -------- DbContext --------
+builder.Services.AddDbContext<KonsentalkDbContext>(options =>
+{
+    var dsBuilder = new Npgsql.NpgsqlDataSourceBuilder(connectionString);
+    dsBuilder.EnableDynamicJson();
+    options.UseNpgsql(dsBuilder.Build());
+});
 // Add services to the container.
 
 builder.Services.AddControllers();
