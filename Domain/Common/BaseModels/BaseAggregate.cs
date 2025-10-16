@@ -25,7 +25,7 @@ public class BaseAggregate
         CreatedDate = now;
         LastModifiedDate = now;
         IsDeleted = false;
-        IsModified = true;
+        IsModified = false;
         CreatedByUserId = Id;
     }
 
