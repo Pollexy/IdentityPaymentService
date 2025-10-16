@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+
 using Domain.Common.BaseModels;
 using Domain.Identity;
 
@@ -48,8 +49,8 @@ public class UserAggregate : BaseAggregate
     }
 
 
-    public static UserAggregate Create(string firstName, string lastName, DateOnly birthDate, string email,
-        string username, string phone, string? bio = null, string? profileImageUrl = null)
+    public static UserAggregate Create(string firstName, string lastName, string email,
+        string phone)
     {
         if (string.IsNullOrWhiteSpace(firstName))
             throw new ArgumentException("Ad boş olamaz.", nameof(firstName));
@@ -59,9 +60,6 @@ public class UserAggregate : BaseAggregate
 
         if (string.IsNullOrWhiteSpace(email))
             throw new ArgumentException("Email boş olamaz.", nameof(email));
-
-        if (string.IsNullOrWhiteSpace(username))
-            throw new ArgumentException("Kullanıcı adı boş olamaz.", nameof(username));
 
         if (string.IsNullOrWhiteSpace(phone))
             throw new ArgumentException("Telefon boş olamaz.", nameof(phone));
@@ -73,17 +71,21 @@ public class UserAggregate : BaseAggregate
             LastName = lastName.Trim(),
             Email = email.Trim(),
             FullName = firstName + " " + lastName,
-            BirthDate = birthDate,
         };
 
         user.SetAsCreated();
         return user;
     }
 
-    public void UpdateProfileInfos(string? bio = null, string? profileImageUrl = null, GenderType? genderType = null)
+    public void UpdateProfileInfos(string? bio = null, string? profileImageUrl = null, GenderType? genderType = null,
+        decimal? weight = null, decimal? height = null, DateOnly? birthDate = null)
     {
         Bio = string.IsNullOrWhiteSpace(bio) ? null : bio.Trim();
         ProfileImageUrl = string.IsNullOrWhiteSpace(profileImageUrl) ? null : profileImageUrl.Trim();
+        Weight = weight;
+        Height = height;
+        if (birthDate.HasValue)
+            BirthDate = birthDate.Value;
         if (genderType.HasValue)
             Gender = genderType.Value;
         SetAsModified(Id);
@@ -100,12 +102,6 @@ public class UserAggregate : BaseAggregate
         FirstName = firstName.Trim();
         LastName = lastName.Trim();
         FullName = firstName + " " + lastName;
-        SetAsModified();
-    }
-
-    public void UpdateBirthDate(DateOnly birthDate)
-    {
-        BirthDate = birthDate;
         SetAsModified();
     }
 
