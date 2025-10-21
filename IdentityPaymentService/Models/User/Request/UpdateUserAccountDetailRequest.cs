@@ -4,7 +4,7 @@ using Domain.User;
 
 namespace IdentityPaymentService.Models.User.Request
 {
-    public class UpdateUserRequest
+    public class UpdateUserAccountDetailRequest
     {
         public string? FirstName { get; set; }
         public string? LastName { get; set; }
@@ -17,9 +17,9 @@ namespace IdentityPaymentService.Models.User.Request
         public decimal? Height { get; set; }
         public string? ProfileImageUrl { get; set; }
 
-        public UpdateUserCommand ToCommand(Guid id)
+        public UpdateUserAccountDetailCommand ToCommand(Guid id)
         {
-            return new UpdateUserCommand(id, FirstName, LastName, Phone, Email, Gender, Weight, Height, Bio,
+            return new UpdateUserAccountDetailCommand(id, FirstName, LastName, Phone, Email, Gender, Weight, Height, Bio,
                 ProfileImageUrl);
         }
     }

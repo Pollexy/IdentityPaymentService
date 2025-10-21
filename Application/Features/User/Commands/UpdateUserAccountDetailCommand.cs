@@ -1,20 +1,12 @@
 ﻿using Application.Common.Interfaces;
-
 using Domain.User;
-
 using MediatR;
-
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Application.Features.User.Commands
 {
-    public class UpdateUserCommand : IRequest
+    public class UpdateUserAccountDetailCommand : IRequest
     {
-        public UpdateUserCommand(Guid id, string firstName, string lastName, string phone,
+        public UpdateUserAccountDetailCommand(Guid id, string firstName, string lastName, string phone,
             string email, GenderType? genderType, decimal? weight, decimal? height, string? bio = null,
             string? profileImageUrl = null)
         {
@@ -26,6 +18,8 @@ namespace Application.Features.User.Commands
             Gender = genderType;
             Weight = weight;
             Height = height;
+            Bio = bio;
+            ProfileImageUrl = profileImageUrl;
         }
 
         public Guid Id { get; set; }
@@ -40,7 +34,7 @@ namespace Application.Features.User.Commands
         public string? Bio { get; set; }
         public string? ProfileImageUrl { get; set; }
 
-        public class Handler : IRequestHandler<UpdateUserCommand>
+        public class Handler : IRequestHandler<UpdateUserAccountDetailCommand>
         {
             private readonly IUserRepository _userRepository;
 
@@ -49,7 +43,7 @@ namespace Application.Features.User.Commands
                 _userRepository = userRepository;
             }
 
-            public async Task Handle(UpdateUserCommand request, CancellationToken cancellationToken)
+            public async Task Handle(UpdateUserAccountDetailCommand request, CancellationToken cancellationToken)
             {
                 var user = await _userRepository.GetByIdAsync(request.Id, cancellationToken);
                 user.UpdateProfileInfos(request.Bio, request.ProfileImageUrl, request.Gender);

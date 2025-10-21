@@ -13,9 +13,10 @@ namespace IdentityPaymentService.Controllers
         {
             _mediator = mediator;
         }
+        
         [ProducesResponseType(StatusCodes.Status200OK)]
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateUser([FromRoute] Guid id, [FromBody] UpdateUserRequest request, CancellationToken token)
+        public async Task<IActionResult> UpdateUserAccountDetail([FromRoute] Guid id, [FromBody] UpdateUserAccountDetailRequest request, CancellationToken token)
         {
             var command = request.ToCommand(id);
             await _mediator.Send(command, token);
